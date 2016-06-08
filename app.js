@@ -9,6 +9,15 @@
 var express = require('express');
 var app = express();
 
+//test variables
+var urla = 'https://www.google.com';
+var urlb = 'https://google.com';
+var urlc = 'https://google.net';
+var urld = 'http://www.google.com';
+var urle = 'http://google.com';
+var urlf = 'http://google.net';
+var urlg = 'www.google.com';
+
 app.set('view engine', 'jade');
 
 app.get('/', function(req, res){
