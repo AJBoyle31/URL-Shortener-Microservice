@@ -2,6 +2,7 @@
     //https://www.google.com
     //http://www.google.com
     //http://google.com
+//mongodb://<dbuser>:<dbpassword>@ds013564.mlab.com:13564/url-shortener
 
 // DONT USE JADE.....USE HTML
 
@@ -9,6 +10,21 @@
 
 var express = require('express');
 var app = express();
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
+
+
+var url = 'mongodb://localhost:27017/url-shortener';
+
+MongoClient.connect(url, function(err, db){
+    if (err){
+        console.log('Unable to connect to MongoDB server. Error: ', err);
+    }
+    else {
+        console.log('Connection established to', url);
+        db.close();
+    }
+});
 
 //test variables
 var urla = 'https://www.google.com';
@@ -25,8 +41,9 @@ app.get('/', function(req, res){
    res.render('main'); 
 });
 
-app.get('/new/:url', function(req, res){
-   var url = req.params.url;
+app.get('/new/:enteredurl', function(req, res){
+   var enteredUrl = req.params.url;
+   
    
 });
 
