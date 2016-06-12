@@ -10,13 +10,13 @@
 
 var express = require('express');
 var app = express();
-var mongodb = require('mongodb');
-var MongoClient = mongodb.MongoClient;
+var mongo = require('mongodb').MongoClient;
+
+var url = "mongodb://CThePants:gof1yer5@ds013564.mlab.com:13564/url-shortener";
+//var url = process.env.MONGOLAB_URI;
 
 
-var url = 'mongodb://localhost:27017/url-shortener';
-
-MongoClient.connect(url, function(err, db){
+mongo.connect(url, function(err, db){
     if (err){
         console.log('Unable to connect to MongoDB server. Error: ', err);
     }
@@ -26,19 +26,9 @@ MongoClient.connect(url, function(err, db){
     }
 });
 
-//test variables
-var urla = 'https://www.google.com';
-var urlb = 'https://google.com';
-var urlc = 'https://google.net';
-var urld = 'http://www.google.com';
-var urle = 'http://google.com';
-var urlf = 'http://google.net';
-var urlg = 'www.google.com';
-
-app.set('view engine', 'jade');
 
 app.get('/', function(req, res){
-   res.render('main'); 
+   res.sendFile(process.cwd() + '/views/main.html'); 
 });
 
 app.get('/new/:enteredurl', function(req, res){
