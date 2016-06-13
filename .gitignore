@@ -1,5 +1,4 @@
 node_modules/
 .eslintrc
 .env
-
-var url = "mongodb://CThePants:gof1yer5@ds013564.mlab.com:13564/url-shortener";
+mongouserpass.js
