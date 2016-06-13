@@ -12,8 +12,8 @@ var express = require('express');
 var app = express();
 var mongo = require('mongodb').MongoClient;
 
-var url = "mongodb://CThePants:gof1yer5@ds013564.mlab.com:13564/url-shortener";
-//var url = process.env.MONGOLAB_URI;
+//url in .gitignore
+var url = process.env.MONGOLAB_URI;
 
 
 mongo.connect(url, function(err, db){
