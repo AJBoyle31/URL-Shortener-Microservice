@@ -11,28 +11,53 @@
 var express = require('express');
 var app = express();
 var mongo = require('mongodb').MongoClient;
+var obtainUrl = require('./mongouserpass.js');
+var validUrl = require('valid-url');
 
 //url in .gitignore
-var url = process.env.MONGOLAB_URI;
+var url = obtainUrl.getUrl();
 
-
-mongo.connect(url, function(err, db){
-    if (err){
-        console.log('Unable to connect to MongoDB server. Error: ', err);
-    }
-    else {
-        console.log('Connection established to', url);
-        db.close();
-    }
-});
+var counter = 1;
 
 
 app.get('/', function(req, res){
    res.sendFile(process.cwd() + '/views/main.html'); 
 });
 
-app.get('/new/:enteredurl', function(req, res){
-   var enteredUrl = req.params.url;
+app.get('/new/*', function(req, res){
+   
+   var enteredUrl = req.params[0];
+   
+   if (!validUrl.isHttpUri(enteredUrl) && !validUrl.isHttpsUri(enteredUrl)) {
+       res.end('Wrong URL format, please try again');
+   }
+   else {
+       res.end(counter.toString());
+       counter++;
+       //now need to access database
+       //add the url and idnumber
+       /*
+       mongo.connect(url, function(err, db){
+            if (err){
+                console.log('Unable to connect to MongoDB server. Error: ', err);
+            }
+            else {
+                console.log('Connection established');
+                var collection = db.collection('urls');
+                var url1 = {webaddress: enteredUrl, shorturl: counter}
+                collection.insert([url1], function(err, result){
+                    if(err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log('success');
+                    }
+                }
+                db.close();
+            }
+        });
+       */
+   }
    
    
 });
