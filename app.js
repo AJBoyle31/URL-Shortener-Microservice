@@ -40,8 +40,14 @@ app.get('/:num', function(req, res){
        else {
            console.log('Connection established');
            var collection = db.collection('urls');
-           var result = collection.find({ short_url: appUrl + lookupNum });
-           res.redirect(result.webaddress);
+           collection.find({ short_url: appUrl + lookupNum }, function(err, result){
+               if(err) {
+                   res.end('Error: this URL is not in the database');
+               }
+               console.log(result.webaddress);
+               //res.redirect(result.webaddress);
+           });
+           
            db.close();
        }
    });
@@ -58,7 +64,6 @@ app.get('/new/*', function(req, res){
        res.end('Wrong URL format, please try again');
    }
    else {
-       res.end(appUrl + randomNum);
        
        //now need to access database
        //add the url and idnumber
