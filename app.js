@@ -11,11 +11,12 @@
 var express = require('express');
 var app = express();
 var mongo = require('mongodb').MongoClient;
-var obtainUrl = require('./mongouserpass.js');
+//var obtainUrl = require('./mongouserpass.js');
 var validUrl = require('valid-url');
 
-//url in .gitignore
-var url = obtainUrl.getUrl();
+
+//var url = obtainUrl.getUrl();
+var url = process.env.MONGOLAB_URI;
 var appUrl = 'http://url-shortener-micro.herokuapp.com/';
 
 function randomNumber(){
