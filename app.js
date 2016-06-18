@@ -31,24 +31,32 @@ app.get('/new', function(req, res){
 });
 
 app.get('/:num', function(req, res){
-   var lookupNum = req.params.num;
+   var lookupNum = Number(req.params.num);
    
    mongo.connect(url, function(err, db){
        if (err) {
            console.log('Unable to connect to MongoDB server. Error: ', err);
        }
        else {
-           console.log('Connection established');
+           console.log('Connection established find');
            var collection = db.collection('urls');
-           collection.find({ short_url: appUrl + lookupNum }, function(err, result){
+           collection.find({url_id: lookupNum}).toArray(function(err, results){
                if(err) {
-                   res.end('Error: this URL is not in the database');
+                   res.end('Error');
+                   
                }
-               console.log(result.webaddress);
-               //res.redirect(result.webaddress);
-           });
+               else if (results.length === 0){
+                   res.end('Error: this URL is not in the database');
+                   db.close();
+                }
+               else {
+                   res.redirect(results[0].webaddress);
+                   db.close();
+               
+               }       
+            });
            
-           db.close();
+           
        }
    });
    
@@ -73,17 +81,17 @@ app.get('/new/*', function(req, res){
                 console.log('Unable to connect to MongoDB server. Error: ', err);
             }
             else {
-                console.log('Connection established');
+                console.log('Connection established insert');
                 var collection = db.collection('urls');
-                var url1 = { webaddress: enteredUrl, short_url: appUrl + randomNum };
+                var url1 = { webaddress: enteredUrl, short_url: appUrl + randomNum, url_id: randomNum };
                 
                 collection.insert(url1, function(err, result){
                     if(err) {
-                        console.log(err);
+                        console.log('Error: ', err);
                     }
                     else {
                         console.log('success');
-                        res.end(JSON.stringify(url1));
+                        res.end(JSON.stringify({webaddress: enteredUrl, short_url: appUrl + randomNum}));
                         db.close();
                     }
                 });
