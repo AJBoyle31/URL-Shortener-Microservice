@@ -3,7 +3,7 @@
 
 var express = require('express');
 var app = express();
-var mongo = require('mongodb').MongoClient;
+//var mongo = require('mongodb').MongoClient;
 //var obtainUrl = require('./mongouserpass.js');
 var validUrl = require('valid-url');
 
