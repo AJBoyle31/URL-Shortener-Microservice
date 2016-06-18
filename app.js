@@ -3,13 +3,13 @@
 
 var express = require('express');
 var app = express();
-//var mongo = require('mongodb').MongoClient;
+var mongo = require('mongodb').MongoClient;
 //var obtainUrl = require('./mongouserpass.js');
 var validUrl = require('valid-url');
 
 
 //var url = obtainUrl.getUrl();
-//var url = process.env.MONGOLAB_URI;
+var url = process.env.MONGOLAB_URI;
 var appUrl = 'http://url-shortener-micro.herokuapp.com/';
 
 function randomNumber(){
@@ -23,7 +23,7 @@ app.get('/', function(req, res){
 app.get('/new', function(req, res){
     res.end('Error, you need to enter a valid URL');
 });
-/*
+
 app.get('/:num', function(req, res){
    var lookupNum = Number(req.params.num);
    
@@ -98,7 +98,7 @@ app.get('/new/*', function(req, res){
    
 });
 
-*/
+
 
 app.listen(process.env.PORT || 3000, function() {
     console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
